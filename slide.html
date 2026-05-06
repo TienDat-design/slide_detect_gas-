@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@600;800&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <title>IoT System Presentation</title>
+    <style>
+        /* General page */
+        body {
+            margin: 0;
+            font-family: 'Arial Narrow', "Segoe UI", Arial, sans-serif;
+            background: #f5f5f7;
+            color: #222;
+        }
+
+        /* configurable underline variables */
+        :root {
+            --underline-thickness: 3px; /* change this to adjust underline thickness */
+            --underline-width: 220px;   /* change this to adjust underline length */
+            --underline-offset: 12px;   /* distance from baseline to top of underline */
+        }
+
+        /* Slide container */
+        .slide {
+            /* make room for visible border around slide */
+            width: calc(100vw - 160px);
+            height: calc(100vh - 128px);
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 64px 96px;
+            box-sizing: border-box;
+            position: relative;
+            margin: 24px auto;
+            border: 1px solid #e6e6ee; /* subtle border */
+            border-radius: 12px;
+            box-shadow: 0 12px 30px rgba(16,24,40,0.12);
+            overflow: hidden;
+        }
+
+        /* Top-right small label like 'CLOSING' */
+        .top-right {
+            position: absolute;
+            top: 28px;
+            right: 48px;
+            font-size: 12px;
+            color: #8a8a8a;
+            letter-spacing: 2px;
+        }
+
+        /* Content layout: left large text, right box */
+        .slide-inner {
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .left {
+            flex: 1 1 60%;
+        }
+
+        .right {
+            flex: 0 0 36%;
+        }
+
+        h1 {
+            font-size: 64px;
+            line-height: 1.02;
+            font-weight: 800;
+            color: #213547;
+            margin: 0 0 18px 0;
+            position: relative;
+        }
+
+        /* Red underline for main headings (uses CSS vars above) */
+        h1::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: calc(-1 * var(--underline-offset));
+            height: var(--underline-thickness);
+            width: var(--underline-width);
+            background: #ff0000;
+            border-radius: 3px;
+        }
+
+        /* Font assignment: headings use Poppins, list items use Roboto */
+        h1,h2,h3,h4,h5,h6 {
+            font-family: 'Poppins', 'Inter', Arial, sans-serif;
+            font-weight: 700;
+        }
+
+        li {
+            font-family: 'Roboto', 'Inter', Arial, sans-serif;
+            font-weight: 400;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #55636b;
+            border-bottom: 2px solid #e6e6e9;
+            display: inline-block;
+            padding-bottom: 8px;
+            margin-top: 8px;
+        }
+
+        /* Right box with bullets */
+        .info-box {
+            background: #fbfbfd;
+            border: 1px solid #e9e9ee;
+            border-top: 3px solid #ff0000; /* red top line */
+            padding: 28px 22px;
+            box-shadow: 0 6px 20px rgba(32,40,60,0.06);
+            border-radius: 6px;
+        }
+
+        .info-box h3 {
+            margin: 0 0 12px 0;
+            font-size: 16px;
+            color: #213547;
+        }
+
+        .info-box ul { margin: 8px 0 0 18px; }
+        .info-box li { font-size: 15px; color: #465a63; margin-bottom: 8px; }
+
+        /* Replace default round bullets with red square markers across slides */
+        ul { list-style: square; padding-left: 1.2rem; }
+        li::marker { color: #ff0000; font-size: 1.05em; }
+
+        /* Footer controls centered and page number right */
+        .footer {
+            position: absolute;
+            bottom: 28px;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+        }
+
+        .controls { display:flex; gap:14px; align-items:center; }
+
+        .control-btn {
+            width:48px; height:48px; border-radius:24px;
+            background:#fff; border:1px solid #e6e6ee; display:flex;
+            align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(16,24,40,0.06);
+            transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 120ms ease;
+            color: #213547;
+        }
+
+        /* Hover state: change to red only on pointer hover */
+        .control-btn:hover {
+            background: #ff0000;
+            border-color: #ff0000;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        /* Show a visible focus ring for keyboard users without changing color */
+        .control-btn:focus-visible {
+            outline: 2px solid rgba(255,0,0,0.9);
+            outline-offset: 3px;
+        }
+
+        .control-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(16,24,40,0.12);
+        }
+
+        .page-number {
+            position: absolute;
+            right: 40px;
+            bottom: 22px;
+            color: #9aa6ad;
+            font-size: 14px;
+        }
+
+        /* Small responsive tweak */
+        @media (max-width: 900px) {
+            h1 { font-size: 40px; }
+            .slide { padding: 40px; width: calc(100vw - 40px); height: calc(100vh - 80px); }
+            .right { display:none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Slide 1 removed as requested -->
+
+<!-- Slide 2 -->
+<div class="slide">
+    <div class="top-right"></div>
+    <div class="slide-inner">
+        <div class="left">
+            <h1>Giao thức</h1>
+        </div>
+        <div class="right">
+            <div class="info-box">
+                <ul>
+                    <li>HTTP API: gửi dữ liệu từ ESP32 → Server</li>
+                    <li>RESTful: POST /api/upload</li>
+                    <li>Header: X-DEVICE-TOKEN để xác thực</li>
+                    <li>Format: Multipart Form Data</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 3 -->
+<div class="slide">
+    <div class="top-right"></div>
+    <div class="slide-inner">
+        <div class="left">
+            <h1>Tổng quan <br> hệ thống</h1>
+        </div>
+        <div class="right">
+            <div class="info-box">
+                <h3>Layers</h3>
+                <ul>
+                    <li><strong>IoT Layer:</strong> ESP32 thu thập dữ liệu cảm biến</li>
+                    <li><strong>Network:</strong> Gửi dữ liệu qua HTTP</li>
+                    <li><strong>Backend:</strong> Django xử lý & lưu trữ</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 4 -->
+<div class="slide">
+    <div class="top-right"></div>
+    <div class="slide-inner">
+        <div class="left">
+            <h1>Sơ đồ luồng</h1>
+        </div>
+        <div class="right">
+            <div class="info-box">
+                <ul>
+                    <li>ESP32 → đọc cảm biến</li>
+                    <li>Tiền xử lý (lọc nhiễu EMA)</li>
+                    <li>Gửi HTTP request</li>
+                    <li>Server nhận & xử lý AI</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 5 -->
+<div class="slide">
+    <div class="top-right"></div>
+    <div class="slide-inner">
+        <div class="left">
+            <h1>Sơ đồ <br> nối mạch</h1>
+        </div>
+        <div class="right">
+            <div class="info-box">
+                <ul>
+                    <li>VL53L0X → ESP32 (I2C)</li>
+                    <li>SDA → GPIO21</li>
+                    <li>SCL → GPIO22</li>
+                    <li>VCC → 3.3V</li>
+                    <li>GND → GND</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 6 -->
+<div class="slide">
+    <div class="top-right"></div>
+    <div class="slide-inner">
+        <div class="left">
+            <h1>Demo + Code</h1>
+        </div>
+        <div class="right">
+            <div class="info-box">
+                <h3>Kiến trúc Firmware</h3>
+                <ul>
+                    <li>Sensor Layer</li>
+                    <li>Processing Layer</li>
+                    <li>Communication Layer</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 7 -->
+<div class="slide">
+    <div class="top-right"></div>
+    <div class="slide-inner">
+        <div class="left">
+            <h1>Ép xung ESP32</h1>
+        </div>
+        <div class="right">
+            <div class="info-box">
+                <ul>
+                    <li>Default: 160MHz</li>
+                    <li>Overclock: 240MHz</li>
+                    <li>Tăng tốc xử lý AI & filter</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 8 -->
+<div class="slide">
+    <div class="top-right"></div>
+    <div class="slide-inner">
+        <div class="left">
+            <h1>Bộ lọc EMA <br> (lọc nhiễu)</h1>
+            <p class="highlight">EMA = α * value + (1 - α) * prev</p>
+        </div>
+        <div class="right">
+            <div class="info-box">
+                <ul>
+                    <li>Giảm nhiễu tín hiệu cảm biến</li>
+                    <li>Chạy trực tiếp trên ESP32</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 9 -->
+<div class="slide">
+    <div class="top-right"></div>
+    <div class="slide-inner">
+        <div class="left">
+            <h1>Deploy & Update</h1>
+        </div>
+        <div class="right">
+            <div class="info-box">
+                <ul>
+                    <li>Có thể OTA update firmware</li>
+                    <li>Update code từ xa</li>
+                    <li>Tối ưu hệ thống realtime</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Global footer controls and page number (applies to all slides) -->
+<div class="footer" aria-hidden="false">
+    <div class="controls">
+        <button id="btn-prev" class="control-btn">◀</button>
+        <button id="btn-dot" class="control-btn">●</button>
+        <button id="btn-next" class="control-btn">▶</button>
+    </div>
+</div>
+
+<div class="page-number" id="page-number">1 / 9</div>
+
+
+<script>
+    // Slides controller: prev/next buttons and keyboard arrows
+    let slides = Array.from(document.querySelectorAll('.slide'));
+    let index = 0;
+
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    const btnDot = document.getElementById('btn-dot');
+    const pageNumberEl = document.getElementById('page-number');
+
+    function showSlide(i) {
+        if (!slides.length) return;
+        index = ((i % slides.length) + slides.length) % slides.length; // wrap
+        slides.forEach((s, idx) => {
+            s.style.display = (idx === index) ? 'flex' : 'none';
+        });
+        updatePageNumber();
+    }
+
+    function updatePageNumber() {
+        if (!pageNumberEl) return;
+        pageNumberEl.textContent = (index + 1) + ' / ' + slides.length;
+    }
+
+    function nextSlide() {
+        showSlide(index + 1);
+    }
+
+    function prevSlide() {
+        showSlide(index - 1);
+    }
+
+    // Hook buttons
+    if (btnPrev) btnPrev.addEventListener('click', prevSlide);
+    if (btnNext) btnNext.addEventListener('click', nextSlide);
+    // btn-dot navigates back to the 'Giao thức' slide (first slide, index 0)
+    if (btnDot) btnDot.addEventListener('click', () => showSlide(0));
+
+    // Keyboard support
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') nextSlide();
+        if (e.key === 'ArrowLeft') prevSlide();
+    });
+
+    // Initialize
+    showSlide(index);
+</script>
+
+</body>
+</html>
