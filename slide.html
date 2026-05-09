@@ -11,6 +11,7 @@
             font-family: 'Arial Narrow', "Segoe UI", Arial, sans-serif;
             background: #ffffff; /* changed to white as requested */
             color: #222;
+
         }
 
         /* configurable underline variables */
@@ -37,6 +38,7 @@
             border-radius: 0;
             box-shadow: none;
             overflow: hidden;
+            border: 1px solid #2f3747; /* dark blue border around entire page */
         }
 
         /* Thin top horizontal rule for slides that opt-in via .top-line */
@@ -73,6 +75,11 @@
             flex-direction: column;
         }
 
+        .image {
+            max-width: 500px;
+            max-height: 500px;
+            object-fit: contain;
+        }
         /* Vertical rotated strip (left edge) */
         .vertical-strip {
             --vertical-strip-width: 72px;
@@ -142,25 +149,40 @@
             letter-spacing: 2px;
         }
 
-        /* Content layout: left large text, right box */
+
+        /* Center the two columns and control their base width */
         .slide-inner {
             width: 100%;
             max-width: 1400px;
             display: flex;
             gap: 48px;
-            align-items: stretch; /* force children to same height */
+            align-items:center;
+            /* align-items: stretch; */
+            /* justify-content: center; */
         }
 
-        /* Make left and right columns equal width */
+        /* flexible spacer to push following items to the right */
+        .spacer { flex: 1 1 auto; }
+
+         /* Make left and right columns equal width */
         .left {
-            flex: 1 1 50%;
+            flex: 0 0 auto;
             min-width: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: auto; 
         }
 
         .right {
-            flex: 1 1 50%;
+            flex: 0 0 auto;
             min-width: 220px;
-        }
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            margin-left: auto; 
+        } 
 
         h1 {
             font-size: 64px;
@@ -196,6 +218,7 @@
 
         /* Right box with bullets */
         .info-box {
+            display: flex;
             background: #fbfbfd;
             border: 1px solid #e9e9ee;
             border-top: 0px solid #ff0000; /* red top line */
@@ -215,6 +238,9 @@
             box-shadow: none;
             border-radius: 0px;
             padding: 28px 28px; /* match regular info-box */
+            width: 380px; 
+            flex: 0 0 380px; 
+            align-self: center; 
         }
         .info-box.filled .info-title,
         .info-box.filled h3 { color: #efe1c7; display: block; margin: 0 0 12px 0; }
@@ -228,7 +254,10 @@
             box-shadow: none;
             border-radius: 0px;
             padding: 28px 24px;
-        }
+            width: 380px; 
+            flex: 0 0 380px; 
+            margin-left: 24px; 
+            align-self: center; }
         .info-box.outline .info-title,
         .info-box.outline h3 { color: #2f3747; }
 
@@ -317,7 +346,7 @@
             <div class="centered">
                 <img class="logo logo-left" src="logo_dut.jpg" alt="Logo trường" onerror="this.style.display='none'">
                 <img class="logo logo-right" src="logo_it_faculty.jpg" alt="Logo khoa" onerror="this.style.display='none'">
-                <h1 class="no-underline">Hệ thống radar</h1>
+                <h1 class="no-underline">Hệ thống giám sát <br> an toàn khí gas</h1>
                 <p class="subtitle">Mô tả ngắn (thay bằng văn bản hoặc giữ trống)</p>
             </div>
         </div>
@@ -329,13 +358,13 @@
          <div class="vertical-strip">
             <h1>ĐẶT VẤN ĐỀ</h1>
         </div>
-        <div class="left">
+        <div>
             <div class="info-box filled">
                 <h3>Vấn đề hiện tại</h3>
             </div>
         </div>
         
-        <div class="right">
+        <div>
             <div class="info-box outline">
                 <h3>Mục tiêu dự án</h3>
             </div>
@@ -348,17 +377,15 @@
     <div class="top-right"></div>
     <div class="slide-inner">
         <div class="top-center-title">
-          <h1 >Giao thức</h1>
+          <h1>Giao thức</h1>
+        </div>
+        <div class="left">
+            <div class="info-box filled">
+                <h3 item-align="left">CoAP Protocol</h3>
+            </div>
         </div>
         <div class="right">
-            <div class="info-box">
-                <ul>
-                    <li>HTTP API: gửi dữ liệu từ ESP32 → Server</li>
-                    <li>RESTful: POST /api/upload</li>
-                    <li>Header: X-DEVICE-TOKEN để xác thực</li>
-                    <li>Format: Multipart Form Data</li>
-                </ul>
-            </div>
+            <img class="image" src="coap.jpg" alt="CoAP Protocol" onerror="this.style.display='none'">
         </div>
     </div>
 </div>
@@ -370,8 +397,8 @@
         <div class="top-center-title">
             <h1 class="no-underline">Tổng quan hệ thống</h1>
         </div>
-        <div class="right">
-            <div class="info-box">
+        <div class="left">
+            <div class="info-box outline">
                 <h3>Layers</h3>
                 <ul>
                     <li><strong>IoT Layer:</strong> ESP32 thu thập dữ liệu cảm biến</li>
@@ -388,10 +415,10 @@
     <div class="top-right"></div>
     <div class="slide-inner">
         <div class="top-center-title">
-            <h1 class="no-underline">Sơ đồ luồng</h1>
+            <h1 >Sơ đồ luồng</h1>
         </div>
-        <div class="right">
-            <div class="info-box">
+        <div class="left">
+            <div class="info-box filled">
                 <ul>
                     <li>ESP32 → đọc cảm biến</li>
                     <li>Tiền xử lý (lọc nhiễu EMA)</li>
@@ -410,8 +437,8 @@
         <div class="top-center-title">
             <h1 class="no-underline">Sơ đồ nối mạch</h1>
         </div>
-        <div class="right">
-            <div class="info-box">
+        <div class="left">
+            <div class="info-box outline">
                 <ul>
                     <li>VL53L0X → ESP32 (I2C)</li>
                     <li>SDA → GPIO21</li>
@@ -431,8 +458,8 @@
         <div class="top-center-title">
             <h1 class="no-underline">Demo + Code</h1>
         </div>
-        <div class="right">
-            <div class="info-box">
+        <div class="left">
+            <div class="info-box filled">
                 <h3>Kiến trúc Firmware</h3>
                 <ul>
                     <li>Sensor Layer</li>
@@ -449,10 +476,10 @@
     <div class="top-right"></div>
     <div class="slide-inner">
         <div class="top-center-title">
-            <h1 class="no-underline">Ép xung ESP32</h1>
+            <h1>Ép xung ESP32</h1>
         </div>
-        <div class="right">
-            <div class="info-box">
+        <div class="left">
+            <div class="info-box outline">
                 <ul>
                     <li>Default: 160MHz</li>
                     <li>Overclock: 240MHz</li>
@@ -468,14 +495,15 @@
     <div class="top-right"></div>
     <div class="slide-inner">
         <div class="top-center-title">
-            <h1 class="no-underline">Bộ lọc EMA (lọc nhiễu)</h1>
-            <p class="highlight">EMA = α * value + (1 - α) * prev</p>
+            <h1>Bộ lọc EMA (lọc nhiễu)</h1>
+            
         </div>
-        <div class="right">
-            <div class="info-box">
+        <div class="left">
+            <div class="info-box filled">
                 <ul>
                     <li>Giảm nhiễu tín hiệu cảm biến</li>
                     <li>Chạy trực tiếp trên ESP32</li>
+                    <p class="highlight">Công thức: EMA = α * value + (1 - α) * prev</p>
                 </ul>
             </div>
         </div>
@@ -487,10 +515,10 @@
     <div class="top-right"></div>
     <div class="slide-inner">
         <div class="top-center-title">
-            <h1 class="no-underline">Deploy & Update</h1>
+            <h1>Deploy & Update</h1>
         </div>
-        <div class="right">
-            <div class="info-box">
+        <div class="left">
+            <div class="info-box outline">
                 <ul>
                     <li>Có thể OTA update firmware</li>
                     <li>Update code từ xa</li>
