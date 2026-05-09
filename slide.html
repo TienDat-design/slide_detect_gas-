@@ -9,7 +9,7 @@
         body {
             margin: 0;
             font-family: 'Arial Narrow', "Segoe UI", Arial, sans-serif;
-            background: #f5f5f7;
+            background: #ffffff; /* changed to white as requested */
             color: #222;
         }
 
@@ -33,12 +33,105 @@
             box-sizing: border-box;
             position: relative;
             margin: 24px auto;
-            border: 1px solid #e6e6ee; /* subtle border */
-            border-radius: 12px;
-            box-shadow: 0 12px 30px rgba(16,24,40,0.12);
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
             overflow: hidden;
         }
 
+        /* Thin top horizontal rule for slides that opt-in via .top-line */
+        .slide.top-line::before {
+            content: "";
+            position: absolute;
+            left: 96px; /* match slide padding */
+            right: 96px;
+            top: 28px; /* align with logos */
+            height: 2px;
+            background: #2f3747;
+            opacity: 0.95;
+            z-index: 4;
+        }
+
+        /* Logo and centered title layout matching PDF: title centered, logo top-left */
+        .logo {
+            position: absolute;
+            top: 28px;
+            width: 140px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .logo-left { left: 48px; }
+        .logo-right { right: 48px;}
+
+        .centered {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-direction: column;
+        }
+
+        /* Vertical rotated strip (left edge) */
+        .vertical-strip {
+            --vertical-strip-width: 72px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            transform: translateY(0);
+            background: #2f3747; /* dark blue */
+            padding: 12px 8px;
+            height: 100%;
+            width: var(--vertical-strip-width);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            box-sizing: border-box;
+        }
+        .vertical-strip h1 {
+            margin: 0;
+            color: #efe1c7; /* beige */
+            font-size: 36px;
+            letter-spacing: 4px;
+            font-weight: 800;
+            transform: rotate(-90deg);
+            transform-origin: center;
+            white-space: nowrap;
+            text-transform: uppercase;
+        }
+        .vertical-strip h1::after,
+        .top-center-title h1::after { display: none; }
+
+        /* Title fixed at top and centered (leave space for left/right logos) */
+        .top-center-title {
+            position: absolute;
+            top: 0px;
+            left: 0%;
+            flex: center;
+            background: #2f3747; /* dark blue */
+            transform: translateX(0%);
+            text-align: center;
+            align-items: center;
+            justify-content: center; 
+            z-index: 5;
+            height: 10%;
+            width: 100%; /* reserve ~160px both sides for logos */
+            pointer-events: none; /* non-interactive */
+        }
+
+        .top-center-title h1 { 
+            margin: 0;  
+            color: #efe1c7; /* beige */ 
+            font-size: 36px; 
+            letter-spacing: 4px; 
+            font-weight: 800; 
+            text-transform: uppercase;
+            display: inline-block;
+            padding: 12px 8px;}
+
+        
         /* Top-right small label like 'CLOSING' */
         .top-right {
             position: absolute;
@@ -55,15 +148,18 @@
             max-width: 1400px;
             display: flex;
             gap: 48px;
-            align-items: center;
+            align-items: stretch; /* force children to same height */
         }
 
+        /* Make left and right columns equal width */
         .left {
-            flex: 1 1 60%;
+            flex: 1 1 50%;
+            min-width: 220px;
         }
 
         .right {
-            flex: 0 0 36%;
+            flex: 1 1 50%;
+            min-width: 220px;
         }
 
         h1 {
@@ -73,19 +169,10 @@
             color: #213547;
             margin: 0 0 18px 0;
             position: relative;
+            
         }
 
         /* Red underline for main headings (uses CSS vars above) */
-        h1::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            bottom: calc(-1 * var(--underline-offset));
-            height: var(--underline-thickness);
-            width: var(--underline-width);
-            background: #ff0000;
-            border-radius: 3px;
-        }
 
         /* Font assignment: headings use Poppins, list items use Roboto */
         h1,h2,h3,h4,h5,h6 {
@@ -100,8 +187,8 @@
 
         .subtitle {
             font-size: 18px;
-            color: #55636b;
-            border-bottom: 2px solid #e6e6e9;
+            color: #213547;;
+            border-bottom: 2px solid #213547;;
             display: inline-block;
             padding-bottom: 8px;
             margin-top: 8px;
@@ -111,11 +198,39 @@
         .info-box {
             background: #fbfbfd;
             border: 1px solid #e9e9ee;
-            border-top: 3px solid #ff0000; /* red top line */
+            border-top: 0px solid #ff0000; /* red top line */
             padding: 28px 22px;
             box-shadow: 0 6px 20px rgba(32,40,60,0.06);
             border-radius: 6px;
+            height: 100%; /* fill column height so boxes match */
+            flex-direction: column;
+            justify-content: flex-start;
+            box-sizing: border-box;
         }
+
+        /* Variant: filled dark panel (left) */
+        .info-box.filled {
+            background: #2f3747;
+            color: #efe1c7;
+            box-shadow: none;
+            border-radius: 0px;
+            padding: 28px 28px; /* match regular info-box */
+        }
+        .info-box.filled .info-title,
+        .info-box.filled h3 { color: #efe1c7; display: block; margin: 0 0 12px 0; }
+        .info-box.filled ul { margin: 8px 0 0 18px; }
+        .info-box.filled li { color: #efe1c7; }
+
+        /* Variant: outlined panel (right) */
+        .info-box.outline {
+            background: #efe1c7;
+            color: #2f3747;
+            box-shadow: none;
+            border-radius: 0px;
+            padding: 28px 24px;
+        }
+        .info-box.outline .info-title,
+        .info-box.outline h3 { color: #2f3747; }
 
         .info-box h3 {
             margin: 0 0 12px 0;
@@ -124,7 +239,11 @@
         }
 
         .info-box ul { margin: 8px 0 0 18px; }
-        .info-box li { font-size: 15px; color: #465a63; margin-bottom: 8px; }
+        .info-box li { 
+            font-size: 15px; 
+            color: #465a63; 
+            margin-bottom: 8px; 
+        }
 
         /* Replace default round bullets with red square markers across slides */
         ul { list-style: square; padding-left: 1.2rem; }
@@ -189,14 +308,47 @@
 </head>
 <body>
 
-<!-- Slide 1 removed as requested -->
+
+
+<!-- Slide 1: Trang mở đầu (tiêu đề để trống) -->
+<div class="slide" style="background-color: #efe1c7; ">
+    <div class="top-right"></div>
+        <div class="slide-inner">
+            <div class="centered">
+                <img class="logo logo-left" src="logo_dut.jpg" alt="Logo trường" onerror="this.style.display='none'">
+                <img class="logo logo-right" src="logo_it_faculty.jpg" alt="Logo khoa" onerror="this.style.display='none'">
+                <h1 class="no-underline">Hệ thống radar</h1>
+                <p class="subtitle">Mô tả ngắn (thay bằng văn bản hoặc giữ trống)</p>
+            </div>
+        </div>
+</div>
+
+<div class="slide top-line">
+    <div class="top-right"></div>
+    <div class="slide-inner">
+         <div class="vertical-strip">
+            <h1>ĐẶT VẤN ĐỀ</h1>
+        </div>
+        <div class="left">
+            <div class="info-box filled">
+                <h3>Vấn đề hiện tại</h3>
+            </div>
+        </div>
+        
+        <div class="right">
+            <div class="info-box outline">
+                <h3>Mục tiêu dự án</h3>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Slide 2 -->
 <div class="slide">
     <div class="top-right"></div>
     <div class="slide-inner">
-        <div class="left">
-            <h1>Giao thức</h1>
+        <div class="top-center-title">
+          <h1 >Giao thức</h1>
         </div>
         <div class="right">
             <div class="info-box">
@@ -215,8 +367,8 @@
 <div class="slide">
     <div class="top-right"></div>
     <div class="slide-inner">
-        <div class="left">
-            <h1>Tổng quan <br> hệ thống</h1>
+        <div class="top-center-title">
+            <h1 class="no-underline">Tổng quan hệ thống</h1>
         </div>
         <div class="right">
             <div class="info-box">
@@ -235,8 +387,8 @@
 <div class="slide">
     <div class="top-right"></div>
     <div class="slide-inner">
-        <div class="left">
-            <h1>Sơ đồ luồng</h1>
+        <div class="top-center-title">
+            <h1 class="no-underline">Sơ đồ luồng</h1>
         </div>
         <div class="right">
             <div class="info-box">
@@ -255,8 +407,8 @@
 <div class="slide">
     <div class="top-right"></div>
     <div class="slide-inner">
-        <div class="left">
-            <h1>Sơ đồ <br> nối mạch</h1>
+        <div class="top-center-title">
+            <h1 class="no-underline">Sơ đồ nối mạch</h1>
         </div>
         <div class="right">
             <div class="info-box">
@@ -276,8 +428,8 @@
 <div class="slide">
     <div class="top-right"></div>
     <div class="slide-inner">
-        <div class="left">
-            <h1>Demo + Code</h1>
+        <div class="top-center-title">
+            <h1 class="no-underline">Demo + Code</h1>
         </div>
         <div class="right">
             <div class="info-box">
@@ -296,8 +448,8 @@
 <div class="slide">
     <div class="top-right"></div>
     <div class="slide-inner">
-        <div class="left">
-            <h1>Ép xung ESP32</h1>
+        <div class="top-center-title">
+            <h1 class="no-underline">Ép xung ESP32</h1>
         </div>
         <div class="right">
             <div class="info-box">
@@ -315,8 +467,8 @@
 <div class="slide">
     <div class="top-right"></div>
     <div class="slide-inner">
-        <div class="left">
-            <h1>Bộ lọc EMA <br> (lọc nhiễu)</h1>
+        <div class="top-center-title">
+            <h1 class="no-underline">Bộ lọc EMA (lọc nhiễu)</h1>
             <p class="highlight">EMA = α * value + (1 - α) * prev</p>
         </div>
         <div class="right">
@@ -334,8 +486,8 @@
 <div class="slide">
     <div class="top-right"></div>
     <div class="slide-inner">
-        <div class="left">
-            <h1>Deploy & Update</h1>
+        <div class="top-center-title">
+            <h1 class="no-underline">Deploy & Update</h1>
         </div>
         <div class="right">
             <div class="info-box">
@@ -364,7 +516,10 @@
 <script>
     // Slides controller: prev/next buttons and keyboard arrows
     let slides = Array.from(document.querySelectorAll('.slide'));
-    let index = 0;
+    // Try to restore last viewed slide from localStorage
+    const STORAGE_KEY = 'radar_slide_index';
+    let savedIndex = parseInt(localStorage.getItem(STORAGE_KEY));
+    let index = (!isNaN(savedIndex) && savedIndex >= 0 && savedIndex < slides.length) ? savedIndex : 0;
 
     const btnPrev = document.getElementById('btn-prev');
     const btnNext = document.getElementById('btn-next');
@@ -378,6 +533,7 @@
             s.style.display = (idx === index) ? 'flex' : 'none';
         });
         updatePageNumber();
+        try { localStorage.setItem(STORAGE_KEY, String(index)); } catch (e) { /* ignore storage errors */ }
     }
 
     function updatePageNumber() {
