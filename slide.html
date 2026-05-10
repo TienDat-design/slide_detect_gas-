@@ -193,7 +193,7 @@
             max-width: none;
             flex-shrink: 0;
         }
-                h1 {
+        h1 {
             font-size: 64px;
             line-height: 1.02;
             font-weight: 800;
@@ -401,6 +401,11 @@
             .slide { padding: 40px; width: calc(100vw - 40px); height: calc(100vh - 80px); }
             .right { display:none; }
         }
+        p {
+            font-family: 'Roboto', 'Inter', Arial, sans-serif;
+            font-weight: 400;
+            font-size: 24px;
+        }
     </style>
 </head>
 <body>
@@ -460,16 +465,18 @@
          <div class="vertical-strip">
             <h1>ĐẶT VẤN ĐỀ</h1>
         </div>
-   
-        <div class="left">
+        <div class="left" style="padding-left: 10%; text-align: justify;">
             <div class="info-box filled">
                 <h3>Vấn đề hiện tại</h3>
+                <p>Khó phát hiện sớm rò rỉ khí gas, dễ gây cháy nổ và mất an toàn.</p>
+                <img class="image" style="width: 50px; height: auto; align-self: flex-end; margin-top: 12px; " src="icon01.png" alt="next00" onerror="this.style.display='none'">
             </div>
-        </div>
-        
-        <div class="right">
+         </div>
+        <div class="right" style="padding-right: 10%; text-align: justify;">
             <div class="info-box outline">
                 <h3>Mục tiêu dự án</h3>
+                <p>Xây dựng hệ thống giám sát khí gas theo thời gian thực và cảnh báo kịp thời.</p>
+                <img class="image" style="width: 50px; height: auto; align-self: flex-end; margin-top: 12px; " src="icon00.png" alt="next01" onerror="this.style.display='none'">
             </div>
         </div>
     </div>
@@ -500,7 +507,7 @@
         <div class="top-center-title">
             <h1>Tổng quan hệ thống</h1>
         </div>
-       <div class="left">
+       <div class="left" style="padding-top: 50px; text-align: justify;">
             <div class="info-box outline">
                 <h3>Tổng quan</h3>
                 <ul>
@@ -511,7 +518,7 @@
                 </ul>
             </div>
         </div>
-         <div class="right">
+         <div class="right" style="padding-top: 50px;">
             <img 
             class="image" 
             src="tong-quan-he-thong-01.png" 
@@ -548,7 +555,7 @@
         <div class="top-center-title">
             <h1>Sơ đồ nối mạch</h1>
         </div>
-        <div class="left"  style="padding-top: 50px;">
+        <div class="left"  style="padding-top: 50px; text-align: justify;">
             <div class="info-box outline">
                 <h3>Thành phần</h3>
                 <ul>
@@ -562,8 +569,8 @@
                 </ul>
             </div>
         </div>
-         <div class="right" style="padding-top: 50px;">
-            <img class="image" src="circuit_image.png" alt="Circuit Diagram"  onerror="this.style.display='none'">
+         <div class="right" style="padding-top: 50px; padding-right: 5%;">
+            <img class="image" src="so-do-lap-mach-03.png" alt="Circuit Diagram"  onerror="this.style.display='none'">
         </div>
     </div>
 </div>
