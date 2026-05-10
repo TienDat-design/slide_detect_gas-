@@ -287,6 +287,65 @@
         ul { list-style: square; padding-left: 1.2rem; }
         li::marker { color: #ff0000; font-size: 1.05em; }
 
+        /* TOC specific styles */
+        .toc-list { margin-top: 8px; }
+        .toc-list a { color: #213547; text-decoration: none; font-size: 18px; }
+        .toc-list a:hover { text-decoration: underline; color: #ff0000; }
+
+        /* Hamburger button (top-left) */
+        .hamburger {
+            position: fixed;
+            left: 24px;
+            top: 28px;
+            width: 44px;
+            height: 44px;
+            background: #ffffffcc;
+            border: 1px solid rgba(47,55,71,0.12);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            flex-direction: column;
+            padding: 6px;
+            z-index: 60;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+        }
+        .hamburger span { display: block; width: 20px; height: 2px; background: #213547; border-radius: 2px; }
+
+        /* TOC overlay (modal) */
+        .toc-overlay {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(16,24,40,0.45);
+            z-index: 70;
+            padding: 28px;
+            box-sizing: border-box;
+        }
+        .toc-overlay .toc-panel {
+            background: #fff;
+            max-width: 900px;
+            width: 100%;
+            border-radius: 8px;
+            padding: 22px;
+            box-shadow: 0 12px 40px rgba(16,24,40,0.25);
+        }
+        .toc-overlay .toc-close {
+            position: absolute;
+            right: 28px;
+            top: 28px;
+            background: transparent;
+            border: none;
+            color: #efe1c7;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 80;
+        }
+
         /* Footer controls centered and page number right */
         .footer {
             position: absolute;
@@ -345,6 +404,40 @@
     </style>
 </head>
 <body>
+
+<!-- Hamburger button (visible on all slides) -->
+<button id="hamburger-toggle" class="hamburger" aria-label="Mục lục">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
+<!-- TOC overlay (hidden by default) -->
+<div id="toc-overlay" class="toc-overlay" aria-hidden="true">
+    <div class="toc-panel">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+            <h2 style="margin:0; color:#213547;">Mục lục</h2>
+            <button id="toc-close" class="toc-close" aria-label="Đóng">✕</button>
+        </div>
+        <div style="margin-top:12px;">
+            <ul class="toc-list" style="margin:0 0 0 12px;">
+                <li><a href="#" data-slide="0">Trang mở đầu</a></li>
+                <li><a href="#" data-slide="1">Đặt vấn đề</a></li>
+                <li><a href="#" data-slide="2">Giao thức</a></li>
+                <li><a href="#" data-slide="3">Tổng quan hệ thống</a></li>
+                <li><a href="#" data-slide="4">Sơ đồ luồng</a></li>
+                <li><a href="#" data-slide="5">Sơ đồ nối mạch</a></li>
+                <li><a href="#" data-slide="6">Demo + Code</a></li>
+                <li><a href="#" data-slide="7">Ép xung ESP32</a></li>
+                <li><a href="#" data-slide="8">Bộ lọc EMA</a></li>
+                <li><a href="#" data-slide="9">Deploy & Update</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- removed duplicate in-page TOC; using overlay/hamburger only -->
+
 
 
 
@@ -603,8 +696,44 @@
     // Hook buttons
     if (btnPrev) btnPrev.addEventListener('click', prevSlide);
     if (btnNext) btnNext.addEventListener('click', nextSlide);
-    // btn-dot navigates back to the 'Giao thức' slide (first slide, index 0)
-    if (btnDot) btnDot.addEventListener('click', () => showSlide(0));
+
+    // btn-dot opens the TOC overlay (do not navigate away)
+    const tocOverlay = document.getElementById('toc-overlay');
+    const hamburger = document.getElementById('hamburger-toggle');
+    const tocClose = document.getElementById('toc-close');
+
+    function showOverlay() {
+        if (!tocOverlay) return;
+        tocOverlay.style.display = 'flex';
+        tocOverlay.setAttribute('aria-hidden', 'false');
+    }
+    function hideOverlay() {
+        if (!tocOverlay) return;
+        tocOverlay.style.display = 'none';
+        tocOverlay.setAttribute('aria-hidden', 'true');
+    }
+
+    if (btnDot) btnDot.addEventListener('click', (e) => { e.preventDefault(); showOverlay(); });
+    if (hamburger) hamburger.addEventListener('click', (e) => { e.preventDefault(); showOverlay(); });
+    if (tocClose) tocClose.addEventListener('click', hideOverlay);
+
+    // TOC overlay: clicking a link navigates to the slide and closes overlay
+    if (tocOverlay) {
+        tocOverlay.addEventListener('click', (ev) => {
+            if (ev.target === tocOverlay) hideOverlay();
+        });
+        tocOverlay.querySelectorAll('.toc-list a[data-slide]').forEach(a => {
+            a.addEventListener('click', (ev) => {
+                ev.preventDefault();
+                const s = parseInt(a.getAttribute('data-slide'));
+                if (!isNaN(s)) showSlide(s);
+                hideOverlay();
+            });
+        });
+    }
+
+    // Close overlay with Escape key
+    window.addEventListener('keydown', (e) => { if (e.key === 'Escape') hideOverlay(); });
 
     // Keyboard support
     window.addEventListener('keydown', (e) => {
