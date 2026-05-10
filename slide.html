@@ -144,7 +144,7 @@
             position: absolute;
             top: 28px;
             right: 48px;
-            font-size: 12px;
+            font-size: 24px;
             color: #8a8a8a;
             letter-spacing: 2px;
         }
@@ -175,19 +175,25 @@
             align-items: center;
             justify-content: center;
             margin-right: auto; 
+            max-width: 100%;
+        }
+        .right {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            max-width: none;
+            overflow: visible;
         }
 
-        .right {
-            flex: 0 0 auto;
-            min-width: 220px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 24px;
-            margin-left: auto; 
-        } 
+        .image {
+            width: 110%;
+            height: auto;
 
-        h1 {
+            max-width: none;
+            flex-shrink: 0;
+        }
+                h1 {
             font-size: 64px;
             line-height: 1.02;
             font-weight: 800;
@@ -266,13 +272,13 @@
 
         .info-box h3 {
             margin: 0 0 12px 0;
-            font-size: 16px;
+            font-size: 24px;
             color: #213547;
         }
 
         .info-box ul { margin: 8px 0 0 18px; }
         .info-box li { 
-            font-size: 15px; 
+            font-size: 24px; 
             color: #465a63; 
             margin-bottom: 8px; 
         }
@@ -361,13 +367,14 @@
          <div class="vertical-strip">
             <h1>ĐẶT VẤN ĐỀ</h1>
         </div>
-        <div>
+   
+        <div class="left">
             <div class="info-box filled">
                 <h3>Vấn đề hiện tại</h3>
             </div>
         </div>
         
-        <div>
+        <div class="right">
             <div class="info-box outline">
                 <h3>Mục tiêu dự án</h3>
             </div>
@@ -387,7 +394,7 @@
                 <h3 item-align="left">CoAP Protocol</h3>
             </div>
         </div>
-        <div class="right">
+        <div class="right" style="padding-top: 10%;">
             <img class="image" src="coap.jpg" alt="CoAP Protocol" onerror="this.style.display='none'">
         </div>
     </div>
@@ -400,15 +407,23 @@
         <div class="top-center-title">
             <h1>Tổng quan hệ thống</h1>
         </div>
-        <div class="left">
+       <div class="left">
             <div class="info-box outline">
-                <h3>Layers</h3>
+                <h3>Tổng quan</h3>
                 <ul>
-                    <li><strong>IoT Layer:</strong> ESP32 thu thập dữ liệu cảm biến</li>
-                    <li><strong>Network:</strong> Gửi dữ liệu qua HTTP</li>
-                    <li><strong>Backend:</strong> Django xử lý & lưu trữ</li>
+                    <li><strong>Thiết bị IoT:</strong> ESP32 đọc cảm biến MQ2 và điều khiển quạt, buzzer</li>
+                    <li><strong>Mạng:</strong> Giao tiếp CoAP / UDP qua Wi-Fi</li>
+                    <li><strong>Backend:</strong> Node.js xử lý dữ liệu realtime và WebSocket</li>
+                    <li><strong>Web Dashboard:</strong> Giám sát và điều khiển hệ thống từ trình duyệt</li>
                 </ul>
             </div>
+        </div>
+         <div class="right">
+            <img 
+            class="image" 
+            src="tong-quan-he-thong-01.png" 
+            alt="Overall System Architecture" 
+            onerror="this.style.display='none'">
         </div>
     </div>
 </div>
@@ -440,16 +455,22 @@
         <div class="top-center-title">
             <h1>Sơ đồ nối mạch</h1>
         </div>
-        <div class="left">
+        <div class="left"  style="padding-top: 50px;">
             <div class="info-box outline">
+                <h3>Thành phần</h3>
                 <ul>
-                    <li>VL53L0X → ESP32 (I2C)</li>
-                    <li>SDA → GPIO21</li>
-                    <li>SCL → GPIO22</li>
-                    <li>VCC → 3.3V</li>
-                    <li>GND → GND</li>
+                    <li>Vi điều khiển ESP32 DevKit V1</li>
+                    <li>Cảm biến khí gas MQ2</li>
+                    <li>Module điều khiển động cơ L9110S</li>
+                    <li>Động cơ DC / Quạt hút</li>
+                    <li>Còi buzzer 5V</li>
+                    <li>Nguồn ngoài cấp cho động cơ</li>
+                    <li>Cáp USB cấp nguồn cho ESP32</li>
                 </ul>
             </div>
+        </div>
+         <div class="right" style="padding-top: 50px;">
+            <img class="image" src="circuit_image.png" alt="Circuit Diagram"  onerror="this.style.display='none'">
         </div>
     </div>
 </div>
