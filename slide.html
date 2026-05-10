@@ -453,8 +453,8 @@
             <div class="centered">
                 <img class="logo logo-left" src="logo_dut.jpg" alt="Logo trường" onerror="this.style.display='none'">
                 <img class="logo logo-right" src="logo_it_faculty.jpg" alt="Logo khoa" onerror="this.style.display='none'">
-                <h1 class="no-underline">Hệ thống giám sát <br> an toàn khí gas</h1>
-                <p class="subtitle">Mô tả ngắn (thay bằng văn bản hoặc giữ trống)</p>
+                <h1 style="padding-top: 5%;">Hệ Thống Cảnh Báo Cháy <br> Hút Khí Gas,Khói Thông Minh (AIoT)</h1>
+                <p class="subtitle">Nhóm sinh viên thực hiện: Nguyễn Văn Huy, Tiến Đạt, Đức Minh.</p>
             </div>
         </div>
 </div>
@@ -490,8 +490,11 @@
           <h1>Giao thức</h1>
         </div>
         <div class="left">
-            <div class="info-box filled">
-                <h3 item-align="left">CoAP Protocol</h3>
+            <div class="info-box filled" style="text-align: justify;">
+                <h3 item-align="left">Tại sao lại chọn CoAP?</h3>
+                <li>Nhẹ và chạy trên UDP — tối ưu cho thiết bị IoT, giảm overhead (chi phí phụ) và độ trễ.</li>
+                <li>Hỗ trợ mô hình publish–subscribe cho thông báo hiệu quả.</li>
+                <li>Dễ tích hợp với ESP32, triển khai nhanh trên phần cứng nhúng.</li>
             </div>
         </div>
         <div class="right" style="padding-top: 10%;">
@@ -505,18 +508,17 @@
     <div class="top-right"></div>
     <div class="slide-inner">
         <div class="top-center-title">
-            <h1>Tổng quan hệ thống</h1>
+            <h1>Kiến trúc Hệ thống Tổng thể </h1>
         </div>
        <div class="left" style="padding-top: 50px; text-align: justify;">
-            <div class="info-box outline">
-                <h3>Tổng quan</h3>
-                <ul>
-                    <li><strong>Thiết bị IoT:</strong> ESP32 đọc cảm biến MQ2 và điều khiển quạt, buzzer</li>
-                    <li><strong>Mạng:</strong> Giao tiếp CoAP / UDP qua Wi-Fi</li>
-                    <li><strong>Backend:</strong> Node.js xử lý dữ liệu realtime và WebSocket</li>
-                    <li><strong>Web Dashboard:</strong> Giám sát và điều khiển hệ thống từ trình duyệt</li>
-                </ul>
-            </div>
+          <div class="info-box outline">
+            <h3>Sơ đồ 03 lớp</h3>
+            <ul>
+                <li><strong>ESP32:</strong> Gửi dữ liệu bằng CoAP</li>
+                <li><strong>Node.js:</strong> Xử lý dữ liệu realtime</li>
+                <li><strong>Web UI:</strong> Hiển thị và giám sát hệ thống</li>
+            </ul>
+        </div>
         </div>
          <div class="right" style="padding-top: 50px;">
             <img 
@@ -535,15 +537,13 @@
         <div class="top-center-title">
             <h1 >Sơ đồ luồng</h1>
         </div>
-        <div class="left">
-            <div class="info-box filled">
-                <ul>
-                    <li>ESP32 → đọc cảm biến</li>
-                    <li>Tiền xử lý (lọc nhiễu EMA)</li>
-                    <li>Gửi HTTP request</li>
-                    <li>Server nhận & xử lý AI</li>
-                </ul>
-            </div>
+
+        <div class="center" style="padding-top: 50px;">
+            <img 
+            class="image" 
+            src="so-do-luong-01.png" 
+            alt="Overall System Architecture" 
+            onerror="this.style.display='none'">
         </div>
     </div>
 </div>
@@ -580,11 +580,11 @@
     <div class="top-right"></div>
     <div class="slide-inner">
         <div class="top-center-title">
-            <h1>Demo + Code</h1>
+            <h1>Máy trạng thái (FSM)</h1>
         </div>
         <div class="left">
             <div class="info-box filled">
-                <h3>Kiến trúc Firmware</h3>
+                <h3></h3>
                 <ul>
                     <li>Sensor Layer</li>
                     <li>Processing Layer</li>
@@ -600,7 +600,7 @@
     <div class="top-right"></div>
     <div class="slide-inner">
         <div class="top-center-title">
-            <h1>Ép xung ESP32</h1>
+            <h1>Chống nhiễu Vật lý</h1>
         </div>
         <div class="left">
             <div class="info-box outline">
@@ -619,7 +619,7 @@
     <div class="top-right"></div>
     <div class="slide-inner">
         <div class="top-center-title">
-            <h1>Bộ lọc EMA (lọc nhiễu)</h1> 
+            <h1>Kỹ thuật Điều khiển Động cơ (Motor Control)</h1> 
         </div>
         <div class="left">
             <div class="info-box filled">
@@ -638,7 +638,7 @@
     <div class="top-right"></div>
     <div class="slide-inner">
         <div class="top-center-title">
-            <h1>Deploy & Update</h1>
+            <h1>Tổng kết & Demo Trực tiếp</h1>
         </div>
         <div class="left">
             <div class="info-box outline">
