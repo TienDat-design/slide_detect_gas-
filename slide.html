@@ -75,11 +75,11 @@
             flex-direction: column;
         }
 
-        .image {
+        /* .image {
             max-width: 500px;
             max-height: 500px;
             object-fit: contain;
-        }
+        } */
         /* Vertical rotated strip (left edge) */
         .vertical-strip {
             --vertical-strip-width: 72px;
@@ -291,6 +291,7 @@
         .toc-list { margin-top: 8px; }
         .toc-list a { color: #213547; text-decoration: none; font-size: 18px; }
         .toc-list a:hover { text-decoration: underline; color: #ff0000; }
+        .toc-list a.active { color: #ff0000; font-weight: 700; text-decoration: underline; }
 
         /* Hamburger button (top-left) */
         .hamburger {
@@ -425,18 +426,7 @@
             <button id="toc-close" class="toc-close" aria-label="Đóng">✕</button>
         </div>
         <div style="margin-top:12px;">
-            <ul class="toc-list" style="margin:0 0 0 12px;">
-                <li><a href="#" data-slide="0">Trang mở đầu</a></li>
-                <li><a href="#" data-slide="1">Đặt vấn đề</a></li>
-                <li><a href="#" data-slide="2">Giao thức</a></li>
-                <li><a href="#" data-slide="3">Tổng quan hệ thống</a></li>
-                <li><a href="#" data-slide="4">Sơ đồ luồng</a></li>
-                <li><a href="#" data-slide="5">Sơ đồ nối mạch</a></li>
-                <li><a href="#" data-slide="6">Demo + Code</a></li>
-                <li><a href="#" data-slide="7">Ép xung ESP32</a></li>
-                <li><a href="#" data-slide="8">Bộ lọc EMA</a></li>
-                <li><a href="#" data-slide="9">Deploy & Update</a></li>
-            </ul>
+            <ul class="toc-list" style="margin:0 0 0 12px;"></ul>
         </div>
     </div>
 </div>
@@ -453,7 +443,7 @@
             <div class="centered">
                 <img class="logo logo-left" src="logo_dut.jpg" alt="Logo trường" onerror="this.style.display='none'">
                 <img class="logo logo-right" src="logo_it_faculty.jpg" alt="Logo khoa" onerror="this.style.display='none'">
-                <h1 style="padding-top: 5%;">Hệ Thống Cảnh Báo Cháy <br> Hút Khí Gas,Khói Thông Minh (AIoT)</h1>
+                <h1 style="padding-top: 10%; line-height: 1.2;">HỆ THỐNG CẢNH BÁO CHÁY <br> HÚT KHÍ GAS & KHÓI THÔNG MINH (AIoT)</h1>
                 <p class="subtitle">Nhóm sinh viên thực hiện: Nguyễn Văn Huy, Tiến Đạt, Đức Minh.</p>
             </div>
         </div>
@@ -487,7 +477,7 @@
     <div class="top-right"></div>
     <div class="slide-inner">
         <div class="top-center-title">
-          <h1>Giao thức</h1>
+          <h1>GIAO THỨC</h1>
         </div>
         <div class="left">
             <div class="info-box filled" style="text-align: justify;">
@@ -508,7 +498,7 @@
     <div class="top-right"></div>
     <div class="slide-inner">
         <div class="top-center-title">
-            <h1>Kiến trúc Hệ thống Tổng thể </h1>
+            <h1>KIẾN TRÚC HỆ THỐNG TỔNG THỂ </h1>
         </div>
        <div class="left" style="padding-top: 50px; text-align: justify;">
           <div class="info-box outline">
@@ -535,7 +525,7 @@
     <div class="top-right"></div>
     <div class="slide-inner">
         <div class="top-center-title">
-            <h1 >Sơ đồ luồng</h1>
+            <h1 >SƠ ĐỒ LUỒNG</h1>
         </div>
 
         <div class="center" style="padding-top: 50px;">
@@ -553,7 +543,7 @@
     <div class="top-right"></div>
     <div class="slide-inner">
         <div class="top-center-title">
-            <h1>Sơ đồ nối mạch</h1>
+            <h1>SƠ ĐỒ NỐI MẠCH</h1>
         </div>
         <div class="left"  style="padding-top: 50px; text-align: justify;">
             <div class="info-box outline">
@@ -569,7 +559,7 @@
                 </ul>
             </div>
         </div>
-         <div class="right" style="padding-top: 50px; padding-right: 5%;">
+        <div class="right" style="padding-top: 50px; padding-right: 5%;">
             <img class="image" src="so-do-lap-mach-03.png" alt="Circuit Diagram"  onerror="this.style.display='none'">
         </div>
     </div>
@@ -580,17 +570,24 @@
     <div class="top-right"></div>
     <div class="slide-inner">
         <div class="top-center-title">
-            <h1>Máy trạng thái (FSM)</h1>
+            <h1>MÁY TRẠNG THÁI (FSM)</h1>
         </div>
-        <div class="left">
-            <div class="info-box filled">
-                <h3></h3>
-                <ul>
-                    <li>Sensor Layer</li>
-                    <li>Processing Layer</li>
-                    <li>Communication Layer</li>
-                </ul>
-            </div>
+        <div class="left" style="padding-top: 30px; text-align: justify; width: 480px;"> 
+            <div class="info-box filled"> 
+                <h3>FSM</h3> 
+                <ul> 
+                    <li><strong>Sensor Layer</strong>: Phát hiện khí gas.</li> 
+                    <li><strong>Processing Layer</strong>: ESP32 xử lý FSM 4 trạng thái, hoạt động độc lập khi mất mạng.</li> 
+                    <li><strong>Communication Layer</strong>: WiFi/CoAP dùng để giám sát và gửi cảnh báo.</li>
+                </ul>   
+            </div> 
+        </div>
+        <div class="right" style="padding-top: 50px; padding-right:0px;" >
+            <img class="image" 
+            src="fsm01.png" 
+            alt="FSM01"
+            style="display:block;"
+            onerror="this.style.display='none'">
         </div>
     </div>
 </div>
@@ -600,16 +597,22 @@
     <div class="top-right"></div>
     <div class="slide-inner">
         <div class="top-center-title">
-            <h1>Chống nhiễu Vật lý</h1>
+            <h1>CHỐNG NHIỄU</h1>
         </div>
-        <div class="left">
-            <div class="info-box outline">
-                <ul>
-                    <li>Default: 160MHz</li>
-                    <li>Overclock: 240MHz</li>
-                    <li>Tăng tốc xử lý AI & filter</li>
-                </ul>
-            </div>
+        <div class="left" style="padding-top: 10px; text-align: justify; width: 480px;"> 
+            <div class="info-box filled"> 
+                <h3>CHỐNG NHIỄU</h3> 
+                <ul> 
+                    <li>Cài đặt ngưỡng trễ (Bật ở 600, Tắt ở 400)</li> 
+                    <li>Ép phần cứng phải chạy đủ 10 giây để hút sạch hoàn toàn không khí.</li> 
+                </ul>   
+            </div> 
+        </div>
+        <div class="right" style="padding-top: 10px; padding-right: 20px; display:flex; gap:20px; justify-content:flex-end; align-items:flex-start; flex-wrap:wrap;">
+            <img class="image" src="chong-nhieu-00.png" alt="Chống Nhiễu 00"
+                 style="width:400px; height:auto; display:block;" onerror="this.style.display='none'">
+            <img class="image" src="chong-nhieu-01-01.png" alt="Chống Nhiễu 01"
+                 style="width:400px; height:auto; display:block;" onerror="this.style.display='none'">
         </div>
     </div>
 </div>
@@ -619,35 +622,36 @@
     <div class="top-right"></div>
     <div class="slide-inner">
         <div class="top-center-title">
-            <h1>Kỹ thuật Điều khiển Động cơ (Motor Control)</h1> 
+            <h1>KỸ THUẬT ĐIỀU KHIỂN ĐỘNG CƠ (MOTOR CONTROL)</h1>
         </div>
-        <div class="left">
+        <div class="left"  style="padding-top: 60px; text-align: justify;">
             <div class="info-box filled">
                 <ul>
-                    <li>Giảm nhiễu tín hiệu cảm biến</li>
-                    <li>Chạy trực tiếp trên ESP32</li>
-                    <p class="highlight">Công thức: EMA = α * value + (1 - α) * prev</p>
+                    <li>Khắc phục quán tính khởi động bằng kỹ thuật "Kick-start".</li>
+                    <li>Khi phát hiện gas hệ thống mồi dòng bằng cách lưu thời điểm [fanStartTime] và cấp PWM tối đa 255 (100% công suất) trong 1 giây đầu để tạo đà.</li>
+                    <li>Sau đó hạ về 150 để duy trì vận hành êm ái và tránh làm nóng/kẹt IC điều khiển (L9110S).</li>
                 </ul>
             </div>
+        </div>
+        <div class="right" style="padding-top: 60px; padding-right: 5%; display:flex; gap:20px; justify-content:flex-end; align-items:flex-start; flex-wrap:wrap;">
+            <img class="image" src="control-motor-00.png" alt="Control Motor 00"
+                 style="width:500px; height:auto; display:block;" onerror="this.style.display='none'">
+            <img class="image" src="control-motor-01.png" alt="Control Motor 01"
+                 style="width:500px; height:auto; display:block;" onerror="this.style.display='none'">
+            <img class="image" src="control-motor-02.png" alt="Control Motor 02"
+                 style="width:500px; height:auto; display:block;" onerror="this.style.display='none'">
+            <img class="image" src="control-motor-03.png" alt="Control Motor 03"
+                 style="width:500px; height:auto; display:block;" onerror="this.style.display='none'">
         </div>
     </div>
 </div>
 
 <!-- Slide 9 -->
-<div class="slide">
+<div class="slide" style="background-color: #efe1c7;">
     <div class="top-right"></div>
     <div class="slide-inner">
-        <div class="top-center-title">
-            <h1>Tổng kết & Demo Trực tiếp</h1>
-        </div>
-        <div class="left">
-            <div class="info-box outline">
-                <ul>
-                    <li>Có thể OTA update firmware</li>
-                    <li>Update code từ xa</li>
-                    <li>Tối ưu hệ thống realtime</li>
-                </ul>
-            </div>
+        <div class="centered">
+            <h1>TỔNG KẾT & DEMO TRỰC TIẾP</h1>
         </div>
     </div>
 </div>
@@ -685,6 +689,8 @@
         });
         updatePageNumber();
         try { localStorage.setItem(STORAGE_KEY, String(index)); } catch (e) { /* ignore storage errors */ }
+        // update TOC highlight when slide changes
+        try { if (typeof updateTOCActive === 'function') updateTOCActive(); } catch (e) { /* ignore */ }
     }
 
     function updatePageNumber() {
@@ -724,19 +730,48 @@
     if (hamburger) hamburger.addEventListener('click', (e) => { e.preventDefault(); showOverlay(); });
     if (tocClose) tocClose.addEventListener('click', hideOverlay);
 
-    // TOC overlay: clicking a link navigates to the slide and closes overlay
+    // Build dynamic TOC from slide titles and delegate clicks
+    function buildTOC() {
+        const toc = document.querySelector('.toc-list');
+        if (!toc) return;
+        toc.innerHTML = '';
+        slides.forEach((s, i) => {
+            // Prefer top-center-title h1, otherwise first h1, h3 or fallback
+            const titleEl = s.querySelector('.top-center-title h1') || s.querySelector('h1') || s.querySelector('h3');
+            const text = titleEl ? titleEl.textContent.trim().replace(/\s+/g,' ') : ('Slide ' + (i+1));
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = '#';
+            a.setAttribute('data-slide', String(i));
+            a.textContent = text;
+            li.appendChild(a);
+            toc.appendChild(li);
+        });
+    }
+
+    function updateTOCActive() {
+        const items = document.querySelectorAll('.toc-list a');
+        items.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector('.toc-list a[data-slide="' + index + '"]');
+        if (active) active.classList.add('active');
+    }
+
     if (tocOverlay) {
         tocOverlay.addEventListener('click', (ev) => {
             if (ev.target === tocOverlay) hideOverlay();
         });
-        tocOverlay.querySelectorAll('.toc-list a[data-slide]').forEach(a => {
-            a.addEventListener('click', (ev) => {
+        // delegated handler so we can rebuild TOC anytime
+        const tocList = tocOverlay.querySelector('.toc-list');
+        if (tocList) {
+            tocList.addEventListener('click', (ev) => {
+                const a = ev.target.closest('a[data-slide]');
+                if (!a) return;
                 ev.preventDefault();
                 const s = parseInt(a.getAttribute('data-slide'));
                 if (!isNaN(s)) showSlide(s);
                 hideOverlay();
             });
-        });
+        }
     }
 
     // Close overlay with Escape key
@@ -749,7 +784,9 @@
     });
 
     // Initialize
+    buildTOC();
     showSlide(index);
+    updateTOCActive();
 </script>
 
 </body>
