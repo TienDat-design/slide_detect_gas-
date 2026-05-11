@@ -2,6 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@600;800&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <title>IoT System Presentation</title>
     <style>
@@ -23,14 +24,14 @@
 
         /* Slide container */
         .slide {
-            /* make room for visible border around slide */
+            /* make room for visible border around slide; prefer relative padding for zoom */
             width: calc(100vw - 160px);
             height: calc(100vh - 128px);
             background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 64px 96px;
+            padding: 6vh 6vw;
             box-sizing: border-box;
             position: relative;
             margin: 24px auto;
@@ -39,6 +40,7 @@
             box-shadow: none;
             overflow: hidden;
             border: 1px solid #2f3747; /* dark blue border around entire page */
+            min-width: 320px;
         }
 
         /* Thin top horizontal rule for slides that opt-in via .top-line */
@@ -187,20 +189,19 @@
         }
 
         .image {
-            width: 110%;
+            width: auto;
+            max-width: 100%;
             height: auto;
-
-            max-width: none;
+            display: block;
             flex-shrink: 0;
         }
         h1 {
-            font-size: 64px;
+            font-size: clamp(1.5rem, 4vw, 4rem);
             line-height: 1.02;
             font-weight: 800;
             color: #213547;
             margin: 0 0 18px 0;
             position: relative;
-            
         }
 
         /* Red underline for main headings (uses CSS vars above) */
@@ -247,9 +248,10 @@
             box-shadow: none;
             border-radius: 0px;
             padding: 28px 28px; /* match regular info-box */
-            width: 380px; 
-            flex: 0 0 380px; 
-            align-self: center; 
+            max-width: 380px;
+            flex: 1 1 380px;
+            align-self: center;
+            box-sizing: border-box;
         }
         .info-box.filled .info-title,
         .info-box.filled h3 { color: #efe1c7; display: block; margin: 0 0 12px 0; }
@@ -263,9 +265,9 @@
             box-shadow: none;
             border-radius: 0px;
             padding: 28px 24px;
-            width: 380px; 
-            flex: 0 0 380px; 
-            margin-left: 24px; 
+            max-width: 380px;
+            flex: 1 1 380px;
+            margin-left: 24px;
             align-self: center; }
         .info-box.outline .info-title,
         .info-box.outline h3 { color: #2f3747; }
@@ -691,6 +693,14 @@
         <button id="btn-dot" class="control-btn">●</button>
         <button id="btn-next" class="control-btn">▶</button>
     </div>
+    <div id="zoom-controls" style="display:flex; gap:8px; align-items:center; margin-left:16px;">
+        <button id="btn-zoom-out" class="control-btn" title="Zoom out">−</button>
+        <button id="btn-zoom-in" class="control-btn" title="Zoom in">+</button>
+        <input id="zoom-slider" type="range" min="50" max="300" value="100" style="width:160px;" aria-label="Zoom slider">
+        <div id="zoom-display" style="min-width:64px; text-align:center; color:#213547; font-weight:600;">100%</div>
+        <button id="btn-zoom-fit" class="control-btn" title="Fit">⤢</button>
+        <button id="btn-zoom-reset" class="control-btn" title="Reset">ⓧ</button>
+    </div>
 </div>
 
 <div class="page-number" id="page-number">1 / 9</div>
@@ -815,6 +825,162 @@
     buildTOC();
     showSlide(index);
     updateTOCActive();
+
+    /* Zoom & Pan (Canva-like) ------------------------------------------------- */
+    const ZOOM_MIN = 0.5;
+    const ZOOM_MAX = 3;
+    const ZOOM_STEP = 0.1;
+
+    let scale = 1;
+    let panX = 0;
+    let panY = 0;
+    let isPanning = false;
+    let lastPointer = null;
+    let pointers = new Map(); // for pinch
+
+    const btnZoomIn = document.getElementById('btn-zoom-in');
+    const btnZoomOut = document.getElementById('btn-zoom-out');
+    const btnZoomReset = document.getElementById('btn-zoom-reset');
+    const btnZoomFit = document.getElementById('btn-zoom-fit');
+    const zoomSlider = document.getElementById('zoom-slider');
+    const zoomDisplay = document.getElementById('zoom-display');
+
+    function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+
+    function applyTransform() {
+        const s = slides[index];
+        if (!s) return;
+        // apply transform origin center for predictable zooming
+        s.style.transformOrigin = 'center center';
+        s.style.transition = 'transform 120ms ease-out';
+        s.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+        zoomSlider.value = Math.round(scale * 100);
+        zoomDisplay.textContent = Math.round(scale * 100) + '%';
+    }
+
+    function setZoom(newScale, cx = null, cy = null) {
+        newScale = clamp(newScale, ZOOM_MIN, ZOOM_MAX);
+        // optional focal zoom: adjust pan so zoom focuses at (cx,cy) in viewport coords
+        if (cx !== null && cy !== null) {
+            const s = slides[index];
+            const rect = s.getBoundingClientRect();
+            // compute offset relative to element center
+            const ex = cx - (rect.left + rect.width/2);
+            const ey = cy - (rect.top + rect.height/2);
+            // compensate pan so focal point stays put
+            panX = panX - ex * (newScale/scale - 1);
+            panY = panY - ey * (newScale/scale - 1);
+        }
+        scale = newScale;
+        applyTransform();
+    }
+
+    btnZoomIn && btnZoomIn.addEventListener('click', () => setZoom(scale + ZOOM_STEP, window.innerWidth/2, window.innerHeight/2));
+    btnZoomOut && btnZoomOut.addEventListener('click', () => setZoom(scale - ZOOM_STEP, window.innerWidth/2, window.innerHeight/2));
+    btnZoomReset && btnZoomReset.addEventListener('click', () => { scale = 1; panX = 0; panY = 0; applyTransform(); });
+    btnZoomFit && btnZoomFit.addEventListener('click', () => {
+        const s = slides[index];
+        if (!s) return;
+        const rect = s.getBoundingClientRect();
+        const availableW = window.innerWidth - 160; // keep some padding
+        const availableH = window.innerHeight - 140;
+        const fitScale = clamp(Math.min(availableW / rect.width, availableH / rect.height), ZOOM_MIN, 1);
+        setZoom(fitScale, window.innerWidth/2, window.innerHeight/2);
+        panX = 0; panY = 0; applyTransform();
+    });
+
+    zoomSlider && zoomSlider.addEventListener('input', (e) => { setZoom(e.target.value/100, window.innerWidth/2, window.innerHeight/2); });
+
+    // Wheel to zoom when Ctrl/Meta pressed; otherwise ignore so page doesn't scroll
+    window.addEventListener('wheel', (ev) => {
+        if (ev.ctrlKey || ev.metaKey) {
+            ev.preventDefault();
+            const delta = -Math.sign(ev.deltaY) * ZOOM_STEP;
+            setZoom(scale + delta, ev.clientX, ev.clientY);
+        }
+    }, { passive: false });
+
+    // Keyboard shortcuts: +, -, 0
+    window.addEventListener('keydown', (e) => {
+        if (e.key === '+' || (e.key === '=' && (e.shiftKey || e.code === 'Equal'))) { setZoom(scale + ZOOM_STEP); }
+        if (e.key === '-' || e.key === '_') { setZoom(scale - ZOOM_STEP); }
+        if (e.key === '0') { scale = 1; panX = 0; panY = 0; applyTransform(); }
+    });
+
+    // Pointer events for pan & pinch
+    function onPointerDown(e) {
+        const s = slides[index];
+        if (!s) return;
+        pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        s.setPointerCapture && s.setPointerCapture(e.pointerId);
+        if (pointers.size === 1 && scale > 1) {
+            isPanning = true;
+            lastPointer = { x: e.clientX, y: e.clientY };
+            s.style.cursor = 'grabbing';
+            s.style.transition = 'none';
+        }
+    }
+
+    function onPointerMove(e) {
+        const s = slides[index];
+        if (!s) return;
+        if (!pointers.has(e.pointerId)) return;
+        pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        if (pointers.size === 1 && isPanning && lastPointer) {
+            const cur = { x: e.clientX, y: e.clientY };
+            panX += (cur.x - lastPointer.x);
+            panY += (cur.y - lastPointer.y);
+            lastPointer = cur;
+            applyTransform();
+        } else if (pointers.size === 2) {
+            // pinch zoom
+            const pts = Array.from(pointers.values());
+            const dx = pts[0].x - pts[1].x;
+            const dy = pts[0].y - pts[1].y;
+            const dist = Math.hypot(dx, dy);
+            if (!onPointerMove._lastDist) { onPointerMove._lastDist = dist; return; }
+            const ratio = dist / onPointerMove._lastDist;
+            setZoom(clamp(scale * ratio, ZOOM_MIN, ZOOM_MAX), (pts[0].x + pts[1].x)/2, (pts[0].y + pts[1].y)/2);
+            onPointerMove._lastDist = dist;
+        }
+    }
+
+    function onPointerUp(e) {
+        const s = slides[index];
+        if (!s) return;
+        pointers.delete(e.pointerId);
+        if (pointers.size === 0) {
+            isPanning = false;
+            lastPointer = null;
+            onPointerMove._lastDist = null;
+            s.style.cursor = '';
+            s.style.transition = 'transform 120ms ease-out';
+        }
+    }
+
+    // Attach pointer handlers to each slide (delegated on showSlide)
+    slides.forEach(s => {
+        s.style.touchAction = 'none';
+        s.addEventListener('pointerdown', onPointerDown);
+        window.addEventListener('pointermove', onPointerMove);
+        window.addEventListener('pointerup', onPointerUp);
+        window.addEventListener('pointercancel', onPointerUp);
+    });
+
+    // When slide changes reset transform on old slide and apply to new one
+    const originalShowSlide = showSlide;
+    showSlide = function(i) {
+        // clear transform on previous
+        const prev = slides[index];
+        if (prev) { prev.style.transform = ''; prev.style.transition = ''; }
+        originalShowSlide(i);
+        // reset pan/scale for new slide (keep current scale if !=1)
+        panX = 0; panY = 0;
+        applyTransform();
+    };
+
+    // ensure transform applied initially
+    applyTransform();
 </script>
 
 </body>
