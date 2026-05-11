@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base href="/">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@600;800&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <title>IoT System Presentation</title>
     <style>
         /* General page */
+        html, body { height: 100%; box-sizing: border-box; }
+        *, *::before, *::after { box-sizing: inherit; }
         body {
             margin: 0;
             font-family: 'Arial Narrow', "Segoe UI", Arial, sans-serif;
             background: #ffffff; /* changed to white as requested */
             color: #222;
-
+            min-height: 100vh;
         }
 
         /* configurable underline variables */
@@ -25,20 +29,21 @@
         /* Slide container */
         .slide {
             /* make room for visible border around slide; prefer relative padding for zoom */
-            width: calc(100vw - 160px);
-            height: calc(100vh - 128px);
+            width: calc(100% - 160px);
+            max-width: 1400px;
+            min-height: calc(100vh - 128px);
             background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 6vh 6vw;
+            padding: 5vh 5vw;
             box-sizing: border-box;
             position: relative;
             margin: 24px auto;
             border: none;
             border-radius: 0;
             box-shadow: none;
-            overflow: hidden;
+            overflow: auto;
             border: 1px solid #2f3747; /* dark blue border around entire page */
             min-width: 320px;
         }
@@ -159,6 +164,7 @@
             display: flex;
             gap: 48px;
             align-items:center;
+            flex-wrap: wrap;
             /* align-items: stretch; */
             /* justify-content: center; */
         }
@@ -188,6 +194,7 @@
             overflow: visible;
         }
 
+        img { max-width: 100%; height: auto; display: block; }
         .image {
             width: auto;
             max-width: 100%;
