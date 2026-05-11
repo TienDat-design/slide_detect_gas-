@@ -603,10 +603,13 @@
             <div class="info-box filled"> 
                 <h3>Xử lý Tín hiệu Số (DSP) <br> Lọc nhiễu cảm biến</h3> 
                 <ul> 
-                    <li>Áp dụng Moving Average Filter (cửa sổ 50 mẫu ≈ 0.5s): 
-                        đọc liên tục 50 mẫu, cập nhật một buffer tròn và 
-                        tính trung bình để làm mượt tín hiệu MQ2 trước khi đưa vào FSM, 
-                        giảm nhiễu và tránh các gai nháy trên biểu đồ Web.</li> 
+                    <li>Áp dụng Moving Average Filter.</li> 
+                    <li>Sử dụng cửa sổ 50 mẫu (≈ 0.5s).</li> 
+                    <li>Đọc liên tục 50 mẫu từ cảm biến MQ2.</li> 
+                    <li>Cập nhật dữ liệu bằng buffer tròn.</li> 
+                    <li>Tính giá trị trung bình để làm mượt tín hiệu.</li> 
+                    <li>Giảm nhiễu trước khi đưa dữ liệu vào FSM.</li> 
+                    <li>Hạn chế các gai nháy trên biểu đồ Web.</li> 
                 </ul>   
             </div> 
         </div>
